@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace TrialWPF
 {
@@ -9,14 +9,17 @@ namespace TrialWPF
         private string _middleName;
         private string _phone;
 
-        public string LastName { get { return _lastName; } set { Set(ref _lastName, value); } }
-        public string FirstName { get { return _firstName; } set { Set(ref _firstName, value); } }
-        public string MiddleName { get { return _middleName; } set { Set(ref _middleName, value); } }
-        public string Phone { get { return _phone; } set { Set(ref _phone, value); } }
+        public string LastName { get { return _lastName; } set { Set(ref _lastName, value?.Trim() ?? string.Empty); } }
+        public string FirstName { get { return _firstName; } set { Set(ref _firstName, value?.Trim() ?? string.Empty); } }
+        public string MiddleName { get { return _middleName; } set { Set(ref _middleName, value?.Trim() ?? string.Empty); } }
+        public string Phone { get { return _phone; } set { Set(ref _phone, value?.Trim() ?? string.Empty); } }
 
-        protected override void OnPropertyChanged(string propertyName, object oldValue, object newValue)
+        public Contact()
         {
-            base.OnPropertyChanged(propertyName, oldValue, newValue);
+            LastName = string.Empty;
+            FirstName = string.Empty;
+            MiddleName = string.Empty;
+            Phone = string.Empty;
         }
     }
 }

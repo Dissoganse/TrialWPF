@@ -26,22 +26,17 @@ namespace TrialWPF
         private XmlDocument main_doc = new XmlDocument();
         private XmlElement main_root;
         private readonly Contact inputContact;
-        public ObservableCollection<Contact> cont_col { get; set; }
+        private readonly CollectionViewSource contactsView;
+        public ObservableCollection<Contact> cont_col { get; set; } = new ObservableCollection<Contact>();
 
         public MainWindow()
         {
-            cont_col = new ObservableCollection<Contact>();
-
             InitializeComponent();
+            contactsView = (CollectionViewSource)Resources["contacts"];
             inputContact = (Contact)Resources["inputContact"];
 
             main_doc.Load("contacts.xml");
             main_root = main_doc.DocumentElement;
-
-        }
-
-        private void search_button_Click(object sender, RoutedEventArgs e)
-        {
 
             for (int i = 0; i < main_root.ChildNodes.Count; i += 4)
             {
@@ -52,19 +47,30 @@ namespace TrialWPF
                     MiddleName = main_root.ChildNodes.Item(i + 2).InnerText,
                     Phone = main_root.ChildNodes.Item(i + 3).InnerText
                 };
-                if (ContactSearch(contact, inputContact))
-                    cont_col.Add(contact);
+                cont_col.Add(contact);
             }
+        }
 
+        private void search_button_Click(object sender, RoutedEventArgs e)
+        {
+            contactsView.View.Refresh();
         }
 
         public bool ContactSearch(Contact contact, Contact template)
         {
-            return (template.LastName == string.Empty || contact.LastName.ToUpper().Contains(template.LastName.ToUpper())) &&
-                   (template.FirstName == string.Empty || contact.FirstName.ToUpper().Contains(template.FirstName.ToUpper())) &&
-                   (template.MiddleName == string.Empty || contact.MiddleName.ToUpper().Contains(template.MiddleName.ToUpper())) &&
-                   (template.Phone == string.Empty || contact.Phone.ToUpper().Contains(template.Phone.ToUpper()));
+            return template == null ||
+                   (
+                       (template.LastName == string.Empty || contact.LastName.ToUpper().Contains(template.LastName.ToUpper())) &&
+                       (template.FirstName == string.Empty || contact.FirstName.ToUpper().Contains(template.FirstName.ToUpper())) &&
+                       (template.MiddleName == string.Empty || contact.MiddleName.ToUpper().Contains(template.MiddleName.ToUpper())) &&
+                       (template.Phone == string.Empty || contact.Phone.ToUpper().Contains(template.Phone.ToUpper()))
+                   );
         }
 
+        private void OnContactsFilter(object sender, FilterEventArgs e)
+        {
+            Contact contact = (Contact)e.Item;
+            e.Accepted = ContactSearch(contact, inputContact);
+        }
     }
 }

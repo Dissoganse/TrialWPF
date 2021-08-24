@@ -3,40 +3,68 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:TrialWPF" x:Class="TrialWPF.MainWindow"
         Title="MainWindow" Height="523.463" Width="1421.234">
-    <Grid Margin="10,0,0,0">
-        <TextBox x:Name="last_name_init" HorizontalAlignment="Left" Height="23" Margin="25,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="218"/>
-        <TextBox x:Name="first_name_init" HorizontalAlignment="Left" Height="23" Margin="281,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="218"/>
-        <TextBox x:Name="middle_name_init" HorizontalAlignment="Left" Height="23" Margin="551,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="218"/>
-        <Button x:Name="search_button" Content="Search" HorizontalAlignment="Left" Margin="1127,56,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.487,0.533" Click="search_button_Click"/>
-        <Label Content="Last Name" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="First Name" HorizontalAlignment="Left" Margin="354,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Middle Name" HorizontalAlignment="Left" Margin="612,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="phone_init" HorizontalAlignment="Left" Height="23" Margin="838,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
-        <Label Content="Number" HorizontalAlignment="Left" Margin="922,24,0,0" VerticalAlignment="Top"/>
-        <ScrollViewer x:Name="main_scroll" HorizontalAlignment="Left" Height="286" Margin="25,105,0,0" VerticalAlignment="Top" Width="1078">
-            <ItemsControl 
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <UniformGrid Columns="5">
+            <StackPanel>
+                <TextBlock Text="Last Name" Margin="10" HorizontalAlignment="Center"/>
+                <TextBox x:Name="last_name_init" Margin="10"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="First Name"  Margin="10" HorizontalAlignment="Center"/>
+                <TextBox x:Name="first_name_init"  Margin="10"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Middle Name" Margin="10" HorizontalAlignment="Center"/>
+                <TextBox x:Name="middle_name_init" Margin="10"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Number" Margin="10" HorizontalAlignment="Center"/>
+                <TextBox x:Name="phone_init" Margin="10"/>
+            </StackPanel>
+            <UniformGrid Rows="1">
+                <Button x:Name="search_button" Content="Search" Margin="5" Padding="15 5"
+                        Click="search_button_Click"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="create_button" Content="Create" Margin="5" Padding="15 5"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </UniformGrid>
+        </UniformGrid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="main_scroll">
+                <ItemsControl 
                 ItemsSource="{Binding cont_col, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBox Text="{Binding last_name}" Grid.Column="0"/>
-                            <TextBox Text="{Binding first_name}" Grid.Column="1"/>
-                            <TextBox Text="{Binding middle_name}" Grid.Column="2"/>
-                            <TextBox Text="{Binding phone}" Grid.Column="3"/>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <Button x:Name="delete_button" Content="Delete" HorizontalAlignment="Left" Margin="1127,170,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="create_button" Content="Create" HorizontalAlignment="Left" Margin="1238,56,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="save_all_button" Content="Save all" HorizontalAlignment="Left" Margin="1127,220,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.661,-0.408"/>
-
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding last_name}" Grid.Column="0"/>
+                                <TextBox Text="{Binding first_name}" Grid.Column="1"/>
+                                <TextBox Text="{Binding middle_name}" Grid.Column="2"/>
+                                <TextBox Text="{Binding phone}" Grid.Column="3"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <StackPanel Grid.Column="1">
+                <Button x:Name="delete_button" Content="Delete" Margin="5" Padding="15 5"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="save_all_button" Content="Save all" Margin="5" Padding="15 5"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

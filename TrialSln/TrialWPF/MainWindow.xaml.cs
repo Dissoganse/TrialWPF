@@ -25,7 +25,7 @@ namespace TrialWPF
     {
         private XmlDocument main_doc = new XmlDocument();
         private XmlElement main_root;
-
+        private readonly Contact inputContact;
         public ObservableCollection<Contact> cont_col { get; set; }
 
         public MainWindow()
@@ -33,6 +33,7 @@ namespace TrialWPF
             cont_col = new ObservableCollection<Contact>();
 
             InitializeComponent();
+            inputContact = (Contact)Resources["inputContact"];
 
             main_doc.Load("contacts.xml");
             main_root = main_doc.DocumentElement;
@@ -41,22 +42,24 @@ namespace TrialWPF
 
         private void search_button_Click(object sender, RoutedEventArgs e)
         {
-            String[] con_string = new String[4]; byte hit_limit = 0; int grid_count = 0;
+            string[] con_string = new string[4];
+            byte hit_limit = 0;
+            int grid_count = 0;
 
             cont_col.Clear();
-            
-            con_string[0] = last_name_init.Text.Trim();
-            con_string[1] = first_name_init.Text.Trim();
-            con_string[2] = middle_name_init.Text.Trim();
-            con_string[3] = phone_init.Text.Trim();
 
-            for(int i = 0; i < 4; i++)
-                if(con_string[i].Length != 0) 
+            con_string[0] = inputContact.LastName?.Trim() ?? string.Empty;
+            con_string[1] = inputContact.FirstName?.Trim() ?? string.Empty;
+            con_string[2] = inputContact.MiddleName?.Trim() ?? string.Empty;
+            con_string[3] = inputContact.Phone?.Trim() ?? string.Empty;
+
+            for (int i = 0; i < 4; i++)
+                if (con_string[i].Length != 0)
                 {
                     hit_limit++;
                 }
 
-            
+
             for (int i = 0; i < main_root.ChildNodes.Count; i += 4)
             {
                 byte count_t = 0;
@@ -73,16 +76,16 @@ namespace TrialWPF
                 {
                     cont_col.Add(new Contact
                     {
-                        last_name = main_root.ChildNodes.Item(i).InnerText,
-                        first_name = main_root.ChildNodes.Item(i + 1).InnerText,
-                        middle_name = main_root.ChildNodes.Item(i + 2).InnerText,
-                        phone = main_root.ChildNodes.Item(i + 3).InnerText
+                        LastName = main_root.ChildNodes.Item(i).InnerText,
+                        FirstName = main_root.ChildNodes.Item(i + 1).InnerText,
+                        MiddleName = main_root.ChildNodes.Item(i + 2).InnerText,
+                        Phone = main_root.ChildNodes.Item(i + 3).InnerText
                     });
 
                     grid_count++;
                 }
 
-                
+
             }
 
         }

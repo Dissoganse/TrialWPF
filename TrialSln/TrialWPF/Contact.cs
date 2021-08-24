@@ -2,7 +2,7 @@
 
 namespace TrialWPF
 {
-    public class Contact : OnPropertyChangedClass
+    public class Contact : BaseInps
     {
         private string _lastName;
         private string _firstName;
